@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:33 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/01 15:09:42 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/01 19:27:46 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,35 +19,48 @@ bool	is_number(char c)
 	return (false);
 }
 
-bool	check_number(char *argv)
+bool	check_overflow(size_t n, char c)
+{
+	if (n > INT_MAX / 10)
+		return (false);
+	if (n == INT_MAX / 10 && c > '7')
+		return (false);
+	return (true);
+}	
+
+bool	check_number(size_t *n, char *argv)
 {
 	int	i;
-	int	num;
 
 	i = 0;
-	num = 0;
+	*n = 0;
 	while (argv[i])
 	{
-		if (is_number(argv[i] == false))
+		if (argv[0] == '0')
 			return (false);
-		num = num * 10 + (argv[i] - '0');
-		if (num > INT_MAX )
+		if (is_number(argv[i]) == false)
+			return (false);
+		if (check_overflow(*n, argv[i]) == false)
+			return (false);
+		*n = *n * 10 + argv[i] - '0';
 		i++;
 	}
 	return (true);
 }
 
-bool	check_arg(int argc, char **argv)
+bool	check_arg(t_arg *arg, int argc, char **argv)
 {
-	if (argc != 4 && argc != 5)
+	if (argc != 5 && argc != 6)
 		return (false);
-	if (check_number(argv[1]) == false)
+	if (check_number(&arg->philo_num, argv[1]) == false)
 		return (false);
-	if (check_number(argv[2]) == false)
+	if (check_number(&arg->die_time, argv[2]) == false)
 		return (false);
-	if (check_number(argv[3]) == false)
+	if (check_number(&arg->eat_time, argv[3]) == false)
 		return (false);
-	if (argc == 5 && check_number(argv[4]) == false)
+	if (check_number(&arg->sleep_time, argv[4]) == false)
+		return (false);
+	if (argc == 6 && check_number(&arg->must_eat_count, argv[5]) == false)
 		return (false);
 	return (true);
 }

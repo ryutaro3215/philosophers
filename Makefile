@@ -1,8 +1,8 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-SRCS = $(shell find $(SRCDIR) -name "*.c" -type f | xargs)
 SRCDIR = .
+SRCS = $(shell find $(SRCDIR) -name "*.c" -type f | xargs)
 OBJS = $(SRCS:.c=.o)
 INCLUDE = -I ./includes
 
