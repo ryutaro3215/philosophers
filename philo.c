@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/04/24 11:07:57 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/04/24 19:23:22 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,4 @@
 int	main(int argc, char **argv)
 {
 	
-	if (argc != 4 && argc != 5)
-	{
-		printf("Error: Invalid number of arguments\n");
-		return (1);
-	}
-	if (argc == 4)
-	{
-
-	}
 }
