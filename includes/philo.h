@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/01 19:52:41 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/03 23:32:10 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <sys/time.h>
 
 typedef struct s_arg
 {
@@ -35,12 +36,35 @@ typedef struct s_env
 	size_t			fork_num;
 }		t_env;
 
+typedef struct s_mutex
+{
+	pthread_mutex_t *eat_mutex;
+	pthread_mutex_t *write_mutex;
+	pthread_mutex_t *dead_mutex;
+}		t_mutex;
+
+typedef struct s_philp
+{
+	size_t			id;
+	size_t			eat_count;
+	t_arg			*arg;
+	t_env			*env;
+	pthread_t		thread;
+	t_mutex			*mutex;
+	bool			is_eating;
+	struct timeval	last_eat;
+	struct timeval	next_eat;
+}		t_philo;
 
 /* parse argument*/
-
 bool	is_number(char c);
 bool	check_overflow(size_t n, char c);
 bool	check_number(size_t *n, char *argv);
 bool	check_arg(t_arg *arg, int argc, char **argv);
+
+/* init */
+void	free_forks(size_t i, t_env *env);
+bool	init_fork(t_arg arg, t_env *env);
+t_philo	*init_philo(t_arg *arg, t_env *env, t_mutex *mutex);
 
 # endif
