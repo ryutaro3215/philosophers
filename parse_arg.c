@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:33 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/01 19:27:46 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/06 23:46:16 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	check_overflow(size_t n, char c)
 	if (n == INT_MAX / 10 && c > '7')
 		return (false);
 	return (true);
-}	
+}
 
 bool	check_number(size_t *n, char *argv)
 {
@@ -48,19 +48,24 @@ bool	check_number(size_t *n, char *argv)
 	return (true);
 }
 
-bool	check_arg(t_arg *arg, int argc, char **argv)
+bool	check_arg(t_env *env, int argc, char **argv)
 {
 	if (argc != 5 && argc != 6)
 		return (false);
-	if (check_number(&arg->philo_num, argv[1]) == false)
+	if (check_number(&env->philo_num, argv[1]) == false)
 		return (false);
-	if (check_number(&arg->die_time, argv[2]) == false)
+	if (check_number(&env->tt_die, argv[2]) == false)
 		return (false);
-	if (check_number(&arg->eat_time, argv[3]) == false)
+	if (check_number(&env->tt_eat, argv[3]) == false)
 		return (false);
-	if (check_number(&arg->sleep_time, argv[4]) == false)
+	if (check_number(&env->tt_sleep, argv[4]) == false)
 		return (false);
-	if (argc == 6 && check_number(&arg->must_eat_count, argv[5]) == false)
-		return (false);
+	if (argc == 5)
+		env->eat_count = -1;
+	if (argc == 6)
+	{
+		if (check_number(&env->eat_count, argv[5]) == false)
+			return (false);
+	}
 	return (true);
 }
