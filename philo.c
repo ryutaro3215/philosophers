@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:03:49 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/08 17:16:11 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/08 21:19:58 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	main(int argc, char **argv)
 	t_philo	*philo;
 	t_mutex	mutex;
 
-	if (!check_arg(&env, argc, argv))
-		printf("Error: Invalid argument\n");
-	init_mutex(&mutex);
+	if (!check_arg(&env, argc, argv) || !(init_mutex(&mutex, &env)))
+		printf("Error\n");
 	philo = init_philo(&env, &mutex);
 	thread_philo(philo, &env);
 	return (0);
