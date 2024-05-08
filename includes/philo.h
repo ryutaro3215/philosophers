@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/07 15:45:50 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/08 17:15:57 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@
 # include <limits.h>
 # include <sys/time.h>
 
-typedef struct s_counter
-{
-	int	count;
-}		t_counter;
-
 typedef struct s_mutex
 {
-	pthread_mutex_t mutex;
+	pthread_mutex_t	eat_mutex;
+	pthread_mutex_t	sleep_mutex;
+	pthread_mutex_t	think_mutex;
 }			t_mutex;
 
 typedef struct s_env
@@ -59,8 +56,13 @@ bool	check_arg(t_env *env, int argc, char **argv);
 void	init_mutex(t_mutex *mutex);
 t_philo	*init_philo(t_env *env, t_mutex *mutex);
 
+/* thread */
 void	thread_philo(t_philo *philo, t_env *env);
 
+/* routine */
+void	eating(t_philo *philo);
+void	thinking(t_philo *philo);
+void	sleeping(t_philo *philo);
 void	*routine(void *arg);
 
 # endif
