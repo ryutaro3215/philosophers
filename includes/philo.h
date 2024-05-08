@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/08 17:15:57 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/08 21:19:34 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_mutex
 	pthread_mutex_t	eat_mutex;
 	pthread_mutex_t	sleep_mutex;
 	pthread_mutex_t	think_mutex;
+	pthread_mutex_t *forks;
 }			t_mutex;
 
 typedef struct s_env
@@ -43,6 +44,8 @@ typedef struct s_philo
 	size_t			id;
 	t_env			*env;
 	int				flag;
+	struct timeval	start;
+	struct timeval	eat_time;
 	t_mutex			*mutex;
 }			t_philo;
 
@@ -53,7 +56,7 @@ bool	check_number(size_t *n, char *argv);
 bool	check_arg(t_env *env, int argc, char **argv);
 
 /* initialize */
-void	init_mutex(t_mutex *mutex);
+bool	init_mutex(t_mutex *mutex, t_env *env);
 t_philo	*init_philo(t_env *env, t_mutex *mutex);
 
 /* thread */

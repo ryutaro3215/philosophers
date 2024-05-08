@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:55:56 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/08 12:51:59 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/08 19:04:44 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex->eat_mutex);
 	printf("%zu is eating\n", philo->id);
+	printf("%zu\n", philo->start.tv_sec);
+	philo->flag = 1;
 	pthread_mutex_unlock(&philo->mutex->eat_mutex);
 }
 void	thinking(t_philo *philo)
@@ -39,7 +41,7 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		sleep(2);
+		sleep(1);
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
