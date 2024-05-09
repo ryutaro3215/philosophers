@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 11:03:49 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 20:21:31 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/09 19:32:46 by rmatsuba          #+#    #+#             */
+/*   Updated: 2024/05/09 19:34:18 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q philo");
-// }
-
-int	main(int argc, char **argv)
+size_t	get_current_time(void)
 {
-	t_env	env;
-	// t_philo	*philo;
-	t_mutex	mutex;
+	struct timeval time;
 
-	if (!check_arg(&env, argc, argv) || !(init_mutex(&mutex, &env)))
-		printf("Error\n");
-	else
-		printf("success");
-	// philo = init_philo(&env, &mutex);
-	// thread_philo(philo, &env);
-	
-	return (0);
+	if (gettimeofday(&time, NULL) == -1)
+		return (1);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
