@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/08 21:19:34 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:51:33 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ typedef struct s_env
 	size_t	tt_eat;
 	size_t	tt_sleep;
 	size_t	eat_count;
-}		t_env;
+}			t_env;
 
 typedef struct s_philo
 {
 	pthread_t		thread;
 	size_t			id;
 	t_env			*env;
-	int				flag;
+	size_t			eat_count;
 	struct timeval	start;
 	struct timeval	eat_time;
 	t_mutex			*mutex;
@@ -68,4 +68,6 @@ void	thinking(t_philo *philo);
 void	sleeping(t_philo *philo);
 void	*routine(void *arg);
 
+/* monitor */
+void	*monitoring(void *arg);
 # endif
