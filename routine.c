@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:55:56 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 14:48:40 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/09 19:38:13 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,16 @@
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex->eat_mutex);
+	pthread_mutex_lock(philo->l_fork);
+	printf("%zu has taken a l_fork\n", philo->id);
+	pthread_mutex_lock(philo->r_fork);
+	printf("%zu has taken a r_fork\n", philo->id);
+	philo->eat_time = get_current_time();
 	printf("%zu is eating\n", philo->id);
 	philo->eat_count++;
+	usleep(philo->env->tt_eat * 1000);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(&philo->mutex->eat_mutex);
 }
 void	thinking(t_philo *philo)
@@ -30,6 +38,7 @@ void	sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex->sleep_mutex);
 	printf("%zu is sleeping\n", philo->id);
+	usleep(philo->env->tt_sleep * 1000);
 	pthread_mutex_unlock(&philo->mutex->sleep_mutex);
 }
 
@@ -38,6 +47,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	
 	while (1)
 	{
 		eating(philo);

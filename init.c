@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 23:49:53 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/08 21:19:46 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:24:34 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	init_mutex(t_mutex *mutex, t_env *env)
 {
-	size_t	i;
+	long	i;
 
 	i = 0;
 	while (i < env->philo_num)
@@ -22,7 +22,7 @@ bool	init_mutex(t_mutex *mutex, t_env *env)
 		pthread_mutex_init(&mutex->forks[i], NULL);
 		i++;
 	}
-	if (i != env->philo_num)
+	if (!(i == env->philo_num))
 	{
 		while (i >= 0)
 		{
@@ -40,7 +40,7 @@ bool	init_mutex(t_mutex *mutex, t_env *env)
 t_philo	*init_philo(t_env *env, t_mutex *mutex)
 {
 	t_philo	*philo;
-	size_t	i;
+	long	i;
 
 	philo = (t_philo *)malloc(sizeof(t_philo) * env->philo_num);
 	i = 0;
@@ -48,9 +48,15 @@ t_philo	*init_philo(t_env *env, t_mutex *mutex)
 	{
 		philo[i].id = i + 1;
 		philo[i].env = env;
-		philo[i].flag = 0;
+		philo[i].eat_count = 0;
 		philo[i].mutex = mutex;
-		gettimeofday(&philo[i].start, NULL);
+		philo[i].l_fork = &mutex->forks[i];
+		if (i == 0)
+			philo[i].r_fork = &mutex->forks[env->philo_num - 1];
+		else
+			philo[i].r_fork = &mutex->forks[i - 1];
+		philo[i].start = get_current_time();
+		philo[i].eat_time = get_current_time();
 		i++;
 	}
 	return (philo);

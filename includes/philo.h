@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 14:51:33 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/09 21:25:42 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,30 @@ typedef struct s_mutex
 
 typedef struct s_env
 {
-	size_t	philo_num;
-	size_t	tt_die;
-	size_t	tt_eat;
-	size_t	tt_sleep;
-	size_t	eat_count;
+	long	philo_num;
+	long	tt_die;
+	long	tt_eat;
+	long	tt_sleep;
+	long	eat_count;
 }			t_env;
 
 typedef struct s_philo
 {
-	pthread_t		thread;
 	size_t			id;
 	t_env			*env;
-	size_t			eat_count;
-	struct timeval	start;
-	struct timeval	eat_time;
+	long			eat_count;
+	size_t			start;
+	size_t			eat_time;
+	pthread_t		thread;
 	t_mutex			*mutex;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
 }			t_philo;
 
 /* parse argument*/
 bool	is_number(char c);
-bool	check_overflow(size_t n, char c);
-bool	check_number(size_t *n, char *argv);
+bool	check_overflow(long n, char c);
+bool	check_number(long *n, char *argv);
 bool	check_arg(t_env *env, int argc, char **argv);
 
 /* initialize */
@@ -70,4 +72,7 @@ void	*routine(void *arg);
 
 /* monitor */
 void	*monitoring(void *arg);
+
+/* utils */
+size_t	get_current_time(void);
 # endif

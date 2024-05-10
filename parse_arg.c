@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:35:33 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/06 23:46:16 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/09 20:29:26 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	is_number(char c)
 	return (false);
 }
 
-bool	check_overflow(size_t n, char c)
+bool	check_overflow(long n, char c)
 {
 	if (n > INT_MAX / 10)
 		return (false);
@@ -28,7 +28,7 @@ bool	check_overflow(size_t n, char c)
 	return (true);
 }
 
-bool	check_number(size_t *n, char *argv)
+bool	check_number(long *n, char *argv)
 {
 	int	i;
 
