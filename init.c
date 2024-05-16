@@ -3,61 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/06 23:49:53 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 21:24:34 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/13 18:28:21 by ryutaro3205       #+#    #+#             */
+/*   Updated: 2024/05/15 17:19:07 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "includes/philo.h"
 
-bool	init_mutex(t_mutex *mutex, t_env *env)
+t_philo *init_philo(t_info *info, t_env *env)
 {
-	long	i;
-
-	i = 0;
-	while (i < env->philo_num)
-	{
-		pthread_mutex_init(&mutex->forks[i], NULL);
-		i++;
-	}
-	if (!(i == env->philo_num))
-	{
-		while (i >= 0)
-		{
-			pthread_mutex_destroy(&mutex->forks[i]);
-			i--;
-		}
-		return (false);
-	}
-	pthread_mutex_init(&mutex->eat_mutex, NULL);
-	pthread_mutex_init(&mutex->sleep_mutex, NULL);
-	pthread_mutex_init(&mutex->think_mutex, NULL);
-	return (true);
-}
-
-t_philo	*init_philo(t_env *env, t_mutex *mutex)
-{
+	size_t	i;
 	t_philo	*philo;
-	long	i;
 
-	philo = (t_philo *)malloc(sizeof(t_philo) * env->philo_num);
 	i = 0;
-	while (i < env->philo_num)
+	philo = (t_philo *)malloc(sizeof(t_philo) * info->philo_num);
+	if (!philo)
+		return (NULL);
+	while (i < info->philo_num)
 	{
 		philo[i].id = i + 1;
-		philo[i].env = env;
+		philo[i].start_time = get_current_time();
+		philo[i].last_eat = get_current_time();
 		philo[i].eat_count = 0;
-		philo[i].mutex = mutex;
-		philo[i].l_fork = &mutex->forks[i];
+		philo[i].is_eating = false;
+		philo[i].l_fork = &env->forks[i];
+		philo[i].env = env;
+		philo[i].info = info;
 		if (i == 0)
-			philo[i].r_fork = &mutex->forks[env->philo_num - 1];
+			philo[i].r_fork = &env->forks[info->philo_num - 1];
 		else
-			philo[i].r_fork = &mutex->forks[i - 1];
-		philo[i].start = get_current_time();
-		philo[i].eat_time = get_current_time();
+			philo[i].r_fork = &env->forks[i - 1];
 		i++;
 	}
 	return (philo);
+}
+
+bool	init_env(t_env *env, t_info *info)
+{
+	size_t	i;
+
+	i = 0;
+	env->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->philo_num);
+	if (!env->forks)
+		return (false);
+	while (i < info->philo_num)
+	{
+		if (pthread_mutex_init(&env->forks[i], NULL) != 0)
+		{
+			destroy_forks(i, env);
+			return (false);
+		}
+		i++;
+	}
+	if (pthread_mutex_init(&env->dead_mutex, NULL) != 0
+		|| pthread_mutex_init(&env->print_mutex, NULL) != 0
+		|| pthread_mutex_init(&env->eat_mutex, NULL) != 0)
+	{
+		destroy_forks(i, env);
+		return (false);
+	}
+	env->is_dead = false;
+	return (true);
 }

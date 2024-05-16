@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 10:54:44 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 21:25:57 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/14 13:36:29 by ryutaro3205       #+#    #+#             */
+/*   Updated: 2024/05/15 17:19:32 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "includes/philo.h"
 
-void	thread_philo(t_philo *philo, t_env *env)
+void	philo_threads(t_philo *philo, t_info *info)
 {
-	long		i;
+	size_t	i;
 	pthread_t	monitor;
 
-	pthread_create(&monitor, NULL, &monitoring, philo);
 	i = 0;
-	while (i < env->philo_num)
+	if (pthread_create(&monitor, NULL, &monitoring, philo) != 0)
+		free_env(info->philo_num, philo);
+	while (i < info->philo_num)
 	{
-		pthread_create(&philo[i].thread, NULL, &routine, &philo[i]);
+		if (pthread_create(&philo[i].thread, NULL, &routine, &philo[i]) != 0)
+			free_env(info->philo_num, philo);
 		i++;
 	}
 	i = 0;
-	while (i < env->philo_num)
+	pthread_join(monitor, NULL);
+	while (i < info->philo_num)
 	{
 		pthread_join(philo[i].thread, NULL);
 		i++;

@@ -3,20 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 19:32:46 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/05/09 19:34:18 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/13 22:10:14 by ryutaro3205       #+#    #+#             */
+/*   Updated: 2024/05/15 17:19:38 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "includes/philo.h"
+
+void	free_env(size_t i, t_philo *philo)
+{
+	destroy_forks(i, philo->env);
+	free(philo->env->forks);
+	free(philo);
+}
+
+void	destroy_forks(size_t i, t_env *env)
+{
+	while (i > 0)
+	{
+		pthread_mutex_destroy(&env->forks[i]);
+		i--;
+	}
+	free(env->forks);
+}
+
+void	my_usleep(size_t time)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while (get_current_time() - start < time)
+		usleep(100);
+}
 
 size_t	get_current_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		return (1);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
