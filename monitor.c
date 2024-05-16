@@ -3,38 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 14:49:00 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 21:25:17 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/15 11:12:57 by ryutaro3205       #+#    #+#             */
+/*   Updated: 2024/05/15 19:55:47 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "includes/philo.h"
 
-bool	check_eat_count(t_philo *philo)
+bool	check_all_eat(t_philo *philo, t_info *info, t_env *env)
 {
-	long	i;
+	size_t	i;
+	size_t	finish_eat_philo;
 
 	i = 0;
-	while (i < philo->env->philo_num)
+	finish_eat_philo = 0;
+	if (info->must_eat == false)
+		return (false);
+	while (i < philo->info->philo_num)
 	{
-		if (philo[i].eat_count < philo->env->eat_count)
-			return (false);
+		pthread_mutex_lock(&env->eat_mutex);
+		if (philo[i].eat_count >= info->must_eat_count)
+			finish_eat_philo++;
+		pthread_mutex_unlock(&env->eat_mutex);
 		i++;
 	}
-	return (true);
+	if (finish_eat_philo == info->philo_num)
+	{
+		pthread_mutex_lock(&env->dead_mutex);
+		printf("All philosophers have eaten %zu times\n", info->must_eat_count);
+		env->is_dead = true;
+		pthread_mutex_unlock(&env->dead_mutex);
+		return (true);
+	}
+	return (false);
+}
+
+bool	check_dead_flag(t_env *env)
+{
+	pthread_mutex_lock(&env->dead_mutex);
+	if (env->is_dead)
+	{
+		pthread_mutex_unlock(&env->dead_mutex);
+		return (true);
+	}
+	pthread_mutex_unlock(&env->dead_mutex);
+	return (false);
 }
 
 void	*monitoring(void *arg)
 {
 	t_philo	*philo;
+	t_info	*info;
+	t_env	*env;
 
 	philo = (t_philo *)arg;
-	while (1)
+	info = philo->info;
+	env = philo->env;
+	while (!check_dead_flag(env))
 	{
-		if (check_eat_count(philo))
+		if (check_all_eat(philo, info, env))
 			break ;
 	}
-	return (arg);
+	return (NULL);
 }

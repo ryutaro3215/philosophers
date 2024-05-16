@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 13:35:33 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/09 20:29:26 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/12 19:10:56 by ryutaro3205       #+#    #+#             */
+/*   Updated: 2024/05/15 17:19:24 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "includes/philo.h"
 
 bool	is_number(char c)
 {
@@ -19,7 +19,7 @@ bool	is_number(char c)
 	return (false);
 }
 
-bool	check_overflow(long n, char c)
+bool	check_overflow(size_t n, char c)
 {
 	if (n > INT_MAX / 10)
 		return (false);
@@ -28,7 +28,7 @@ bool	check_overflow(long n, char c)
 	return (true);
 }
 
-bool	check_number(long *n, char *argv)
+bool	check_number(size_t *n, char *argv)
 {
 	int	i;
 
@@ -48,23 +48,27 @@ bool	check_number(long *n, char *argv)
 	return (true);
 }
 
-bool	check_arg(t_env *env, int argc, char **argv)
+bool	check_arg(t_info *info, int argc, char **argv)
 {
 	if (argc != 5 && argc != 6)
 		return (false);
-	if (check_number(&env->philo_num, argv[1]) == false)
+	if (check_number(&info->philo_num, argv[1]) == false)
 		return (false);
-	if (check_number(&env->tt_die, argv[2]) == false)
+	if (check_number(&info->tt_die, argv[2]) == false)
 		return (false);
-	if (check_number(&env->tt_eat, argv[3]) == false)
+	if (check_number(&info->tt_eat, argv[3]) == false)
 		return (false);
-	if (check_number(&env->tt_sleep, argv[4]) == false)
+	if (check_number(&info->tt_sleep, argv[4]) == false)
 		return (false);
 	if (argc == 5)
-		env->eat_count = -1;
+	{
+		info->must_eat_count = 0;
+		info->must_eat = false;
+	}
 	if (argc == 6)
 	{
-		if (check_number(&env->eat_count, argv[5]) == false)
+		info->must_eat = true;
+		if (check_number(&info->must_eat_count, argv[5]) == false)
 			return (false);
 	}
 	return (true);
