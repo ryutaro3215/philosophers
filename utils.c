@@ -6,16 +6,23 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 22:10:14 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/15 17:19:38 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/16 19:29:28 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
+void	free_all(size_t i, t_philo *philo)
+{
+	pthread_mutex_destroy(&philo->env->print_mutex);
+	pthread_mutex_destroy(&philo->env->dead_mutex);
+	pthread_mutex_destroy(&philo->env->eat_mutex);
+	free_env(i, philo);
+}
+
 void	free_env(size_t i, t_philo *philo)
 {
 	destroy_forks(i, philo->env);
-	free(philo->env->forks);
 	free(philo);
 }
 
