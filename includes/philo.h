@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:32 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/15 17:09:27 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/16 19:28:38 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <limits.h>
+
+# define R_FORK "has taken a r_fork"
+# define L_FORK "has taken a l_fork"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define THINKING "is thinking"
+# define DEAD "died"
 
 typedef struct s_info
 {
@@ -54,8 +61,6 @@ typedef struct s_philo
 	t_info			*info;
 }		t_philo;
 
-
-
 /* parse_arg */
 bool	is_number(char c);
 bool	check_overflow(size_t n, char c);
@@ -70,19 +75,24 @@ bool	init_env(t_env *env, t_info *info);
 void	philo_threads(t_philo *philo, t_info *info);
 
 /* routine */
+void	take_fork(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_think(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	*routine(void *arg);
 
 /* monitor */
+void	print_message(t_philo *philo, char *str);
+bool	check_philo_dead(t_philo *philo, t_info *info, t_env *env);
 bool	check_all_eat(t_philo *philo, t_info *info, t_env *env);
 bool	check_dead_flag(t_env *env);
 void	*monitoring(void *arg);
 
 /* utils */
+void	free_all(size_t i, t_philo *philo);
 void	free_env(size_t i, t_philo *philo);
 void	destroy_forks(size_t i, t_env *env);
 void	my_usleep(size_t time);
 size_t	get_current_time(void);
+
 #endif

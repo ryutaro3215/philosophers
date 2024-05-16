@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:04 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/15 19:25:44 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/16 19:26:40 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int argc, char **argv)
 	if (!philo)
 		destroy_forks(info.philo_num, &env);
 	philo_threads(philo, &info);
+	free_all(info.philo_num, philo);
 	printf("finish");
 }

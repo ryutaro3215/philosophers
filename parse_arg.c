@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 19:10:56 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/15 17:19:24 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/16 18:25:30 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ bool	check_number(size_t *n, char *argv)
 	while (argv[i])
 	{
 		if (argv[0] == '0')
-			return (false);
+			return (printf("Invalid argument\n"), false);
 		if (is_number(argv[i]) == false)
-			return (false);
+			return (printf("It's not number\n"), false);
 		if (check_overflow(*n, argv[i]) == false)
-			return (false);
+			return (printf("overflow\n"), false);
 		*n = *n * 10 + argv[i] - '0';
 		i++;
 	}

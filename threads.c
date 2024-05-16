@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:36:29 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/15 17:19:32 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/16 17:39:57 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	philo_threads(t_philo *philo, t_info *info)
 {
-	size_t	i;
+	size_t		i;
 	pthread_t	monitor;
 
 	i = 0;

@@ -6,13 +6,13 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:28:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/15 17:19:07 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/16 18:26:42 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-t_philo *init_philo(t_info *info, t_env *env)
+t_philo	*init_philo(t_info *info, t_env *env)
 {
 	size_t	i;
 	t_philo	*philo;
@@ -45,7 +45,8 @@ bool	init_env(t_env *env, t_info *info)
 	size_t	i;
 
 	i = 0;
-	env->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->philo_num);
+	env->forks = (pthread_mutex_t *)malloc
+		(sizeof(pthread_mutex_t) * info->philo_num);
 	if (!env->forks)
 		return (false);
 	while (i < info->philo_num)
@@ -53,7 +54,7 @@ bool	init_env(t_env *env, t_info *info)
 		if (pthread_mutex_init(&env->forks[i], NULL) != 0)
 		{
 			destroy_forks(i, env);
-			return (false);
+			return (printf("fail fork init"), false);
 		}
 		i++;
 	}
@@ -62,7 +63,7 @@ bool	init_env(t_env *env, t_info *info)
 		|| pthread_mutex_init(&env->eat_mutex, NULL) != 0)
 	{
 		destroy_forks(i, env);
-		return (false);
+		return (printf("fail mutex"), false);
 	}
 	env->is_dead = false;
 	return (true);
