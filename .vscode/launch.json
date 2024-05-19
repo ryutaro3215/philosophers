@@ -9,7 +9,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${fileDirname}/philo",
-            "args": ["3", "10", "10", "10", "2"],
+            "args": ["10", "100", "10", "10"],
             "cwd": "${fileDirname}",
             "preLaunchTask": "c_build"
         }

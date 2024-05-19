@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 22:10:14 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/16 19:29:28 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/19 15:17:26 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ void	free_env(size_t i, t_philo *philo)
 
 void	destroy_forks(size_t i, t_env *env)
 {
-	while (i > 0)
+	size_t	j;
+
+	j = 0;
+	while (j < i)
 	{
-		pthread_mutex_destroy(&env->forks[i]);
-		i--;
+		pthread_mutex_destroy(&env->forks[j]);
+		j++;
 	}
 	free(env->forks);
 }
