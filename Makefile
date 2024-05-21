@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread 
+CFLAGS = -Wall -Wextra -Werror -pthread
 SRCDIR = .
 SRCS = $(shell find $(SRCDIR) -name "*.c" -type f | xargs)
 OBJS = $(SRCS:.c=.o)
