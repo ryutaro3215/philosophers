@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:32 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/16 19:28:38 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/21 18:57:46 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ typedef struct s_env
 {
 	bool			is_dead;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	eat_mutex;
+	pthread_mutex_t	com_mutex;
 }		t_env;
 
 typedef struct s_philo

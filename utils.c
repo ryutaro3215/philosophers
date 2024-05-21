@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 22:10:14 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/19 15:17:26 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/21 18:59:49 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	free_all(size_t i, t_philo *philo)
 {
-	pthread_mutex_destroy(&philo->env->print_mutex);
-	pthread_mutex_destroy(&philo->env->dead_mutex);
-	pthread_mutex_destroy(&philo->env->eat_mutex);
+	pthread_mutex_destroy(&philo->env->com_mutex);
 	free_env(i, philo);
 }
 
