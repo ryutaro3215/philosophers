@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   dead.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 13:50:04 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 18:31:02 by rmatsuba         ###   ########.fr       */
+/*   Created: 2024/05/22 21:13:38 by rmatsuba          #+#    #+#             */
+/*   Updated: 2024/05/22 21:14:07 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q philo");
-// }
-
-int	main(int argc, char **argv)
+void	dead_flag(t_env *env)
 {
-	t_info	info;
-	t_env	env;
-	t_philo	*philo;
+	pthread_mutex_lock(&env->dead_mutex);
+	env->is_dead = true;
+	pthread_mutex_unlock(&env->dead_mutex);
+}
 
-	if (!check_arg(&info, argc, argv) || !init_env(&env, &info))
+bool	check_dead_flag(t_env *env)
+{
+	pthread_mutex_lock(&env->dead_mutex);
+	if (env->is_dead == true)
 	{
-		printf("Error\n");
-		return (1);
+		pthread_mutex_unlock(&env->dead_mutex);
+		return (true);
 	}
-	philo = init_philo(&info, &env);
-	if (!philo)
-		destroy_forks(info.philo_num, &env);
-	philo_threads(philo, &info);
-	free_all(info.philo_num, philo);
-	printf("finish");
+	pthread_mutex_unlock(&env->dead_mutex);
+	return (false);
 }
