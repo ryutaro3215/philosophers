@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:32 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/16 19:28:38 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/22 17:59:20 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,12 @@ bool	init_env(t_env *env, t_info *info);
 void	philo_threads(t_philo *philo, t_info *info);
 
 /* routine */
-void	take_fork(t_philo *philo);
-void	philo_eat(t_philo *philo);
-void	philo_think(t_philo *philo);
-void	philo_sleep(t_philo *philo);
 void	*routine(void *arg);
-
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	dead_flag(t_env *env);
 /* monitor */
-void	print_message(t_philo *philo, char *str);
-bool	check_philo_dead(t_philo *philo, t_info *info, t_env *env);
-bool	check_all_eat(t_philo *philo, t_info *info, t_env *env);
-bool	check_dead_flag(t_env *env);
+bool	check_dead(t_env *env);
 void	*monitoring(void *arg);
 
 /* utils */

@@ -6,11 +6,16 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:04 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/19 14:32:14 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/22 17:39:28 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
+
+__attribute__((destructor))
+static void destructor() {
+    system("leaks -q philo");
+}
 
 int	main(int argc, char **argv)
 {
