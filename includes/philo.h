@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:32 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/16 19:28:38 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/22 21:25:28 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 # include <sys/time.h>
 # include <limits.h>
 
-# define R_FORK "has taken a r_fork"
-# define L_FORK "has taken a l_fork"
+# define FORK "has taken a fork"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
@@ -53,7 +52,6 @@ typedef struct s_philo
 	size_t			start_time;
 	size_t			last_eat;
 	size_t			eat_count;
-	bool			is_eating;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -76,17 +74,21 @@ void	philo_threads(t_philo *philo, t_info *info);
 
 /* routine */
 void	take_fork(t_philo *philo);
-void	philo_eat(t_philo *philo);
-void	philo_think(t_philo *philo);
-void	philo_sleep(t_philo *philo);
 void	*routine(void *arg);
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 
 /* monitor */
-void	print_message(t_philo *philo, char *str);
-bool	check_philo_dead(t_philo *philo, t_info *info, t_env *env);
-bool	check_all_eat(t_philo *philo, t_info *info, t_env *env);
-bool	check_dead_flag(t_env *env);
+bool	check_all_eat(t_philo *philo);
+bool	check_philo_dead(t_philo *philo);
 void	*monitoring(void *arg);
+void	print_message(t_philo *philo, size_t id, char *message);
+
+/* dead */
+void	dead_flag(t_env *env);
+bool	check_dead_flag(t_env *env);
+
 
 /* utils */
 void	free_all(size_t i, t_philo *philo);

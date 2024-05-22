@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:28:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/16 18:26:42 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/05/22 19:20:57 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_philo	*init_philo(t_info *info, t_env *env)
 		philo[i].start_time = get_current_time();
 		philo[i].last_eat = get_current_time();
 		philo[i].eat_count = 0;
-		philo[i].is_eating = false;
 		philo[i].l_fork = &env->forks[i];
 		philo[i].env = env;
 		philo[i].info = info;
