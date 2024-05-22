@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 22:10:14 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 21:23:19 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:07:35 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void	my_usleep(size_t time)
 size_t	get_current_time(void)
 {
 	struct timeval	time;
+	size_t			current_time;
 
 	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	current_time = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (current_time);
 }

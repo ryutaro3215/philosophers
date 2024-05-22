@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:59:06 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 21:26:30 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:52:00 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	philo_eat(t_philo *philo)
 
 	current_time = get_current_time();
 	pthread_mutex_lock(&philo->env->eat_mutex);
-	if (current_time - philo->last_eat <= philo->info->tt_die &&
-		philo->info->philo_num != 1)
+	if (current_time - philo->last_eat <= philo->info->tt_die
+		&& philo->info->philo_num != 1)
 	{
 		take_fork(philo);
 		philo->eat_count++;
@@ -52,7 +52,7 @@ void	philo_eat(t_philo *philo)
 	}
 	else
 	{
-		dead_flag(philo->env);	
+		dead_flag(philo->env);
 		pthread_mutex_unlock(&philo->env->eat_mutex);
 		return ;
 	}

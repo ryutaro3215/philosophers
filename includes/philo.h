@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:32 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 21:25:28 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:48:32 by ryutaro3205      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	print_message(t_philo *philo, size_t id, char *message);
 /* dead */
 void	dead_flag(t_env *env);
 bool	check_dead_flag(t_env *env);
-
 
 /* utils */
 void	free_all(size_t i, t_philo *philo);
