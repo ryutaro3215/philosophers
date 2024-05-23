@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:12:57 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 21:14:02 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:13:06 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,22 @@ void	print_message(t_philo *philo, size_t id, char *message)
 
 bool	check_philo_dead(t_philo *philo)
 {
-	size_t	current_time;
 	size_t	i;
+	size_t	time;
 
 	i = 0;
-	current_time = get_current_time();
+	time = get_current_time();
 	while (i < philo->info->philo_num)
 	{
-		if (check_dead_flag(philo->env))
+		pthread_mutex_lock(&philo->env->time_mutex);
+		if (time - philo[i].last_eat > philo->info->tt_die)
 		{
-			printf("%zu %zu %s\n", current_time - philo->start_time,
-				philo->id, DEAD);
-			return (true);
+			pthread_mutex_unlock(&philo->env->time_mutex);
+			dead_flag(philo->env);
+			printf("%zu %zu %s\n", time - philo->start_time, i + 1, DEAD);
+			return (true);	
 		}
+		pthread_mutex_unlock(&philo->env->time_mutex);
 		i++;
 	}
 	return (false);
@@ -47,24 +50,21 @@ bool	check_all_eat(t_philo *philo)
 	size_t	i;
 
 	i = 0;
-	pthread_mutex_lock(&philo->env->eat_mutex);
-	if (!philo->info->must_eat)
-	{
-		pthread_mutex_unlock(&philo->env->eat_mutex);
+	if (philo->info->must_eat == false)
 		return (false);
-	}
 	while (i < philo->info->philo_num)
 	{
-		if (philo[i].eat_count <= philo[i].info->must_eat_count)
+		pthread_mutex_lock(&philo->env->count_mutex);
+		if (philo[i].eat_count < philo->info->must_eat_count)
 		{
-			pthread_mutex_unlock(&philo->env->eat_mutex);
+			pthread_mutex_unlock(&philo->env->count_mutex);
 			return (false);
 		}
+		pthread_mutex_unlock(&philo->env->count_mutex);
 		i++;
 	}
 	dead_flag(philo->env);
-	printf("all philosoper ate %zu times\n", philo->info->must_eat_count);
-	pthread_mutex_unlock(&philo->env->eat_mutex);
+	printf("All philosophers have eaten %zu times\n", philo->info->must_eat_count);
 	return (true);
 }
 

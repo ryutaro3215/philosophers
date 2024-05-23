@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:28:21 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 19:20:57 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:10:14 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ bool	init_env(t_env *env, t_info *info)
 		i++;
 	}
 	if (pthread_mutex_init(&env->dead_mutex, NULL) != 0
-		|| pthread_mutex_init(&env->print_mutex, NULL) != 0
-		|| pthread_mutex_init(&env->eat_mutex, NULL) != 0)
+		|| pthread_mutex_init(&env->count_mutex, NULL) != 0
+		|| pthread_mutex_init(&env->time_mutex, NULL) != 0)
 	{
 		destroy_forks(i, env);
 		return (printf("fail mutex"), false);
