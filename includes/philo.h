@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 13:50:32 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/23 17:03:24 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:27:50 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	print_message(t_philo *philo, size_t id, char *message);
 /* dead */
 void	dead_flag(t_env *env);
 bool	check_dead_flag(t_env *env);
-
 
 /* utils */
 void	free_all(size_t i, t_philo *philo);

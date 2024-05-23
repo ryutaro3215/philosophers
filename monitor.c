@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:12:57 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/23 17:13:06 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:27:42 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	check_philo_dead(t_philo *philo)
 			pthread_mutex_unlock(&philo->env->time_mutex);
 			dead_flag(philo->env);
 			printf("%zu %zu %s\n", time - philo->start_time, i + 1, DEAD);
-			return (true);	
+			return (true);
 		}
 		pthread_mutex_unlock(&philo->env->time_mutex);
 		i++;
@@ -64,7 +64,8 @@ bool	check_all_eat(t_philo *philo)
 		i++;
 	}
 	dead_flag(philo->env);
-	printf("All philosophers have eaten %zu times\n", philo->info->must_eat_count);
+	printf("All philosophers have eaten %zu times\n",
+		philo->info->must_eat_count);
 	return (true);
 }
 
