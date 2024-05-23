@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:59:06 by ryutaro3205       #+#    #+#             */
-/*   Updated: 2024/05/22 21:26:30 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:19:27 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,25 @@ void	take_fork(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	size_t	current_time;
+	size_t	start;
 
-	current_time = get_current_time();
-	pthread_mutex_lock(&philo->env->eat_mutex);
-	if (current_time - philo->last_eat <= philo->info->tt_die &&
-		philo->info->philo_num != 1)
+	start = get_current_time();
+	if (philo->info->philo_num == 1)
 	{
-		take_fork(philo);
-		philo->eat_count++;
-		print_message(philo, philo->id, EATING);
-		philo->last_eat = get_current_time();
-		my_usleep(philo->info->tt_eat);
-		pthread_mutex_unlock(&philo->env->eat_mutex);
-		pthread_mutex_unlock(philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
+		dead_flag(philo->env);
 		return ;
 	}
-	else
-	{
-		dead_flag(philo->env);	
-		pthread_mutex_unlock(&philo->env->eat_mutex);
-		return ;
-	}
+	take_fork(philo);
+	print_message(philo, philo->id, EATING);
+	pthread_mutex_lock(&philo->env->time_mutex);
+	philo->last_eat = get_current_time();
+	pthread_mutex_unlock(&philo->env->time_mutex);
+	my_usleep(philo->info->tt_eat);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_lock(&philo->env->count_mutex);
+	philo->eat_count++;
+	pthread_mutex_unlock(&philo->env->count_mutex);
 }
 
 void	philo_sleep(t_philo *philo)
